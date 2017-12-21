@@ -1,6 +1,7 @@
 MANIFEST.in
 ethome/__init__.py
 ethome/ethome.py
+ethome/test.py
 ethome.egg-info/PKG-INFO
 ethome.egg-info/SOURCES.txt
 ethome.egg-info/dependency_links.txt
@@ -15,3 +16,10 @@ ethome/schema/db.py
 ethome/schema/schema.sql
 ethome/schema/__pycache__/__init__.cpython-36.pyc
 ethome/schema/__pycache__/db.cpython-36.pyc
+ethome/src/__init__.py
+ethome/src/__pycache__/__init__.cpython-36.pyc
+ethome/src/login/__init__.py
+ethome/src/login/login.py
+ethome/src/login/token.py
+ethome/src/login/__pycache__/__init__.cpython-36.pyc
+ethome/src/login/__pycache__/token.cpython-36.pyc

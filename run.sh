@@ -2,12 +2,11 @@
 
 
 # how to setup this app ?
-# 1, pip install --editable
+# 1, pip3 install --editable .
 # 2, export FLASK_APP=ethome
-# 3, flask initdb
+# 3, flask init_db
 # 4, flask run
 
-pip install --editable .
 
 
 export FLASK_APP=ethome

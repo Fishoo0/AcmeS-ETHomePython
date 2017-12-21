@@ -1,8 +1,9 @@
 import os
 
-from flask import Flask, g, app
+from flask import Flask
 
 from ethome.schema.db import init_db, close_db
+from ethome.src.login.token import Token
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -27,3 +28,30 @@ def init_command():
 def release_db(error):
     """ do when app is down"""
     close_db()
+
+
+# Bellowing are urls
+
+@app.route('/')
+def welcome():
+    return "Welcome to ET Home Website !"
+
+
+@app.route('/token_encode')
+def test_token_encode():
+    token = Token("1234", "fish", None)
+    return token.get_token()
+
+
+@app.route('/token_decode')
+def test_token_decode():
+    token = Token(None, None, 'MTIzNDpmaXNoOjE1MDc1NDc0MjMuNjkxMzY1')
+    return str(token.verify_token())
+
+
+
+@app.route('/hello')
+def hello_python():
+    token = Token("1234", "fish", None)
+    return token.get_token()
+
