@@ -1,4 +1,4 @@
-import os
+import os,json
 
 from flask import Flask
 
@@ -45,13 +45,10 @@ def test_token_encode():
 
 @app.route('/token_decode')
 def test_token_decode():
-    token = Token(None, None, 'MTIzNDpmaXNoOjE1MDc1NDc0MjMuNjkxMzY1')
+    token = Token(None, None, 'MTIzNDpmaXNoOjE1MTQyNTQ1NzYuOTAzNzY0')
     return str(token.verify_token())
-
-
 
 @app.route('/hello')
 def hello_python():
-    token = Token("1234", "fish", None)
-    return token.get_token()
+    return "FUCK"
 
