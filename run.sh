@@ -11,4 +11,4 @@
 
 export FLASK_APP=ethome
 export FLASK_DEBUG=True
-flask run
+flask run --host=0.0.0.0

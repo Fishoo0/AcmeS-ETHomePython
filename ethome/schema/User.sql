@@ -4,6 +4,9 @@ create table User (
     time text not null,
 
     name text not null,
+    password text not null,
+    token text,
+
     cover text,
     sex text,
     gender integer,

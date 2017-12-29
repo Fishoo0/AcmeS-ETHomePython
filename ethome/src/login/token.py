@@ -1,6 +1,8 @@
 import base64
 import time
 
+# My first Python class
+
 # About one month
 EXPIRED_TIME = 60 * 60 * 24 * 1
 DIVIDER = ":"
@@ -17,8 +19,8 @@ class Token:
             Constructor with user_id & user_name ,this is an encoding process
         """
         if user_id is not None:
-            print("Token1 user_id -> " + user_id + " user_name -> " + user_name)
-            self.raw_str = user_id + DIVIDER + user_name + DIVIDER + str(time.time())
+            print("Token1 user_id -> " + str(user_id) + " user_name -> " + user_name)
+            self.raw_str = str(user_id) + DIVIDER + user_name + DIVIDER + str(time.time())
             self.encode_str = Token.encode_token(self.raw_str)
         else:
             print("Token2 token -> " + str(token))
@@ -49,7 +51,7 @@ class Token:
 
     def get_user_id(self):
         """ Get user id from token """
-        return self.raw_array[0]
+        return int(self.raw_array[0])
 
     def verify_token(self):
         """ Verify the token expired or not"""
