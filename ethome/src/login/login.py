@@ -1,8 +1,8 @@
 import sqlite3
+from time import asctime
 
 from ethome.schema.db import get_db
 from ethome.src.login.token import Token
-from time import time, asctime
 
 
 class Login:
@@ -34,34 +34,30 @@ class Login:
         return None
 
     @staticmethod
-    def login(user_name, user_password):
+    def login(user_name, user_password=None):
+        print("login -> " + user_name)
         item = Login.find_user(user_name)
         if item is not None:
             password = item[3]
+            token = item[4]
             if password == user_password:
+                print("password is correct")
                 token_obj = Token(item[0], user_name)
                 get_db().execute('update User set token=? where name=?', (token_obj.get_token(), user_name))
                 get_db().commit()
                 print('User has login successfully ,and token has been refreshed')
                 return None
-            else:
-                return 'Password is not correct!'
+            elif password is None or password is '' and token is not None or token is not '':
+                print("password is empty ,try to check token")
+                token_obj = Token(token=token)
+                if token_obj.verify_token():
+                    print('User has passed token verify!')
+                    return None
+                return 'User(?) Token has expired!', user_name
+            return 'Password is not correct && token is null!'
         else:
             return 'User has not registered yet, please register first'
         return 'Unknown error'
-
-    @staticmethod
-    def login_with_token(user_name):
-        item = Login.find_user(user_name)
-        if item is not None:
-            token = item[4]
-            if token is not None:
-                token_obj = Token(None, None, token)
-                if token_obj.verify_token():
-                    return None
-            return 'User(?) Token has expired!', user_name
-        else:
-            return 'User(?) has not been registered yet', user_name
 
     @staticmethod
     def logout(user_name):
