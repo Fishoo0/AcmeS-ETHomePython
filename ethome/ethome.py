@@ -1,16 +1,12 @@
 import json
 import os
-
 import urllib.request
-import requests
-import ssl
 
-from flask import Flask, request, json, jsonify
+from flask import Flask, request, json
 
 from ethome.schema.db import init_db, close_db
 from ethome.src.json import jsonutils
 from ethome.src.login.login import Login
-from ethome.src.testhttps import DESAdapter
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -106,36 +102,84 @@ def get_home():
 def categories():
     print("categories")
     url = 'https://api.avgle.com/v1/categories'
-    response = json.loads(urllib.request.urlopen(url, context=ssl.create_default_context()).read().decode())
+    response = json.loads(urllib.request.urlopen(url).read().decode())
     print(response)
     if response['success']:
         categories = response['response']['categories']
         return jsonutils.get_success_data(categories)
     return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
-@app.route('/avgle_collections', methods=['GET', 'POST'])
+
+@app.route('/collections', methods=['GET', 'POST'])
 def avgle_collections():
     print("avgle_collections")
-    url = 'https://api.avgle.com/v1/categories'
-    s = requests.Session()
-    s.mount('https://api.avgle.com', DESAdapter())
-    print(s.get(url))
+    url = 'https://api.avgle.com/v1/collections/{}?limit={}'
+    page = 0
+    limit = 2
+    response = json.loads(
+        urllib.request.urlopen(url.format(page, limit)).read().decode())
+    print(response)
+    if response['success']:
+        categories = response['response']['collections']
+        return jsonutils.get_success_data(categories)
     return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
 
+@app.route('/videos', methods=['GET', 'POST'])
 def avgle_videos():
-    return None
+    print("avgle_videos")
+    url = 'https://api.avgle.com/v1/videos/{}?limit={}'
+    page = 0
+    limit = 2
+    response = json.loads(
+        urllib.request.urlopen(url.format(page, limit)).read().decode())
+    print(response)
+    if response['success']:
+        categories = response['response']['videos']
+        return jsonutils.get_success_data(categories)
+    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def avgle_search():
-    return None
+    print("avgle_search")
+    url = 'https://api.avgle.com/v1/search/{}/{}?limit={}'
+    query = '三上悠亜'
+    page = 0
+    limit = 2
+    response = json.loads(
+        urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    print(response)
+    if response['success']:
+        categories = response['response']['categories']
+        return jsonutils.get_success_data(categories)
+    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
 
-@app.route('/jav', methods=['POST'])
-def avgle_jav():
-    return None
+@app.route('/search_jav', methods=['GET', 'POST'])
+def avgle_search_jav():
+    print("avgle_search_jav")
+    url = 'https://api.avgle.com/v1/jav/{}/{}?limit={}'
+    query = 'sdde-480'
+    page = 0
+    limit = 2
+    response = json.loads(
+        urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    print(response)
+    if response['success']:
+        categories = response['response']['categories']
+        return jsonutils.get_success_data(categories)
+    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
 
+@app.route('/video', methods=['GET', 'POST'])
 def avgle_video():
-    return None
+    print("avgle_video")
+    url = 'https://api.avgle.com/v1/video/{}'
+    vid = '51'
+    response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
+    print(response)
+    if response['success']:
+        categories = response['response']['categories']
+        return jsonutils.get_success_data(categories)
+    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
