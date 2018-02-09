@@ -151,7 +151,7 @@ def avgle_search():
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']['categories']
+        categories = response['response']['videos']
         return jsonutils.get_success_data(categories)
     return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
@@ -167,7 +167,7 @@ def avgle_search_jav():
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']['categories']
+        categories = response['response']['videos']
         return jsonutils.get_success_data(categories)
     return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
 
@@ -180,6 +180,6 @@ def avgle_video():
     response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']['categories']
+        categories = response['response']['video']
         return jsonutils.get_success_data(categories)
     return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
