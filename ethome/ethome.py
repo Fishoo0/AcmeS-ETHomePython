@@ -107,6 +107,8 @@ def categories():
     if response['success']:
         data = response['response']['categories']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -126,6 +128,8 @@ def avgle_collections():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -145,6 +149,8 @@ def avgle_videos():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -166,6 +172,8 @@ def avgle_search():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -187,6 +195,8 @@ def avgle_search_jav():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -203,4 +213,6 @@ def avgle_video():
     if response['success']:
         data = response['response']['video']
         return jsonResponse.get_success_data(data)
+    elif response['error_message']:
+        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
