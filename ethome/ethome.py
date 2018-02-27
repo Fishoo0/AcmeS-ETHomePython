@@ -207,7 +207,7 @@ def avgle_search_jav():
     try:
         response = json.loads(
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
-    except HTTPError as exception:
+    except Exception as exception:
         print(exception)
         return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
