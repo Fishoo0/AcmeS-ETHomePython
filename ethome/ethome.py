@@ -126,8 +126,8 @@ def avgle_collections():
     print(response)
     if response['success']:
         data = response['response']
-        return response.get_success_data(data)
-    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+        return jsonResponse.get_success_data(data)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/videos', methods=['GET', 'POST'])
