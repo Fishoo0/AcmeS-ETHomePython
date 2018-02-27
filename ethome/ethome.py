@@ -114,8 +114,13 @@ def categories():
 def avgle_collections():
     print("avgle_collections")
     url = 'https://api.avgle.com/v1/collections/{}?limit={}'
-    page = request.get_json().get('page', 0)
-    limit = request.get_json().get('limit', 10)
+    content = request.get_json()
+    if content is not None:
+        page = request.get_json().get('page', 0)
+        limit = request.get_json().get('limit', 10)
+    else:
+        page = 0
+        limit = 10
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
