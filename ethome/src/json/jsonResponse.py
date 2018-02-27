@@ -7,7 +7,7 @@ SERVICE_UNAVAILABLE = 503
 SERVER_ERROR_MSG = 1001
 
 
-def get_error_msg(message, code=1000, data={}):
+def get_error_msg(message, code=INTERNAL_SERVER_ERROR, data={}):
     if message is None:
         message = 'Unknown Error !'
     result = json.dumps({'code': code, 'message': message, 'data': data})

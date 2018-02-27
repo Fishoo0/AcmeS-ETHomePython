@@ -3,7 +3,6 @@ import os
 import urllib.request
 
 from flask import Flask, request, json
-from requests import HTTPError
 
 from ethome.schema.db import init_db, close_db
 from ethome.src.json import jsonResponse
@@ -103,7 +102,11 @@ def get_home():
 def categories():
     print("categories")
     url = 'https://api.avgle.com/v1/categories'
-    response = json.loads(urllib.request.urlopen(url).read().decode())
+    try:
+        response = json.loads(urllib.request.urlopen(url).read().decode())
+    except Exception as exception:
+        print(exception)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
@@ -112,7 +115,7 @@ def categories():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
 
 
 @app.route('/collections', methods=['GET', 'POST'])
@@ -125,8 +128,12 @@ def avgle_collections():
     else:
         page = 0
         limit = 10
-    response = json.loads(
-        urllib.request.urlopen(url.format(page, limit)).read().decode())
+    try:
+        response = json.loads(
+            urllib.request.urlopen(url.format(page, limit)).read().decode())
+    except Exception as exception:
+        print(exception)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
@@ -135,7 +142,7 @@ def avgle_collections():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
 
 
 @app.route('/videos', methods=['GET', 'POST'])
@@ -153,6 +160,7 @@ def avgle_videos():
             urllib.request.urlopen(url.format(page, limit)).read().decode())
     except Exception as exception:
         print(exception)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
@@ -161,7 +169,7 @@ def avgle_videos():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -181,6 +189,7 @@ def avgle_search():
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     except Exception as exception:
         print(exception)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
@@ -189,7 +198,7 @@ def avgle_search():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
 
 
 @app.route('/search_jav', methods=['GET', 'POST'])
@@ -218,7 +227,7 @@ def avgle_search_jav():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
 
 
 @app.route('/video', methods=['GET', 'POST'])
@@ -229,7 +238,11 @@ def avgle_video():
         vid = request.get_json().get('vid', 0)
     else:
         vid = 0
-    response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
+    try:
+        response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
+    except Exception as exception:
+        print(exception)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
@@ -238,4 +251,4 @@ def avgle_video():
         else:
             error_msg = response['response']['error_message']
             return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.INTERNAL_SERVER_ERROR)
