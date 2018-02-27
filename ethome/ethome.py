@@ -105,8 +105,8 @@ def categories():
     response = json.loads(urllib.request.urlopen(url).read().decode())
     print(response)
     if response['success']:
-        data = response['response']['categories']
-        return response.get_success_data(data)
+        data_value = response['response']['categories']
+        return response.get_success_data(data_value)
     return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
