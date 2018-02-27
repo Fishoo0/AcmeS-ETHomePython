@@ -212,7 +212,7 @@ def avgle_search_jav():
     else:
         page = 0
         limit = 10
-        query = ''
+        query = '1'
     try:
         response = json.loads(
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
