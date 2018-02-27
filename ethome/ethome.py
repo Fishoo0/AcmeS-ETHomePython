@@ -207,6 +207,7 @@ def avgle_search_jav():
         response = json.loads(
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     except Exception as exception:
+        response = None
         print(exception)
     print(response)
     if response is not None:
