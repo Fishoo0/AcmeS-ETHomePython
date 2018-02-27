@@ -147,8 +147,11 @@ def avgle_videos():
     else:
         page = 0
         limit = 10
-    response = json.loads(
-        urllib.request.urlopen(url.format(page, limit)).read().decode())
+    try:
+        response = json.loads(
+            urllib.request.urlopen(url.format(page, limit)).read().decode())
+    except Exception as exception:
+        print(exception)
     print(response)
     if response is not None:
         if response['success']:
@@ -172,8 +175,11 @@ def avgle_search():
         page = 0
         limit = 10
         query = '三上悠亜'
-    response = json.loads(
-        urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    try:
+        response = json.loads(
+            urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    except Exception as exception:
+        print(exception)
     print(response)
     if response is not None:
         if response['success']:
@@ -197,8 +203,11 @@ def avgle_search_jav():
         page = 0
         limit = 10
         query = ''
-    response = json.loads(
-        urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    try:
+        response = json.loads(
+            urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
+    except Exception as exception:
+        print(exception)
     print(response)
     if response is not None:
         if response['success']:
