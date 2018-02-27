@@ -5,7 +5,7 @@ import urllib.request
 from flask import Flask, request, json
 
 from ethome.schema.db import init_db, close_db
-from ethome.src.json import jsonutils
+from ethome.src.json import jsonResponse
 from ethome.src.login.login import Login
 
 app = Flask(__name__)
@@ -37,14 +37,14 @@ def release_db(error):
 
 @app.route('/')
 def welcome():
-    return jsonutils.get_success_msg('Welcome to ETHome!')
+    return jsonResponse.get_success_msg('Welcome to ETHome!')
 
 
 def check_params(user_name, user_password=None, check_password=True):
     if user_name is None:
-        return jsonutils.get_error_msg('Invalid user_name')
+        return jsonResponse.get_error_msg('Invalid user_name')
     if (user_password is None or user_password is '') and check_password:
-        return jsonutils.get_error_msg('Invalid user_password')
+        return jsonResponse.get_error_msg('Invalid user_password')
     return None
 
 
@@ -59,8 +59,8 @@ def register():
 
     result = Login.register(user_name, user_password)
     if result is not None:
-        return jsonutils.get_error_msg(result)
-    return jsonutils.get_success_msg('Register successfully!')
+        return jsonResponse.get_error_msg(result)
+    return jsonResponse.get_success_msg('Register successfully!')
 
 
 @app.route('/login', methods=['POST'])
@@ -75,8 +75,8 @@ def login():
         return check_result
     result = Login.login(user_name, user_password)
     if result is not None:
-        return jsonutils.get_error_msg(result)
-    return jsonutils.get_success_msg('Login successfully!')
+        return jsonResponse.get_error_msg(result)
+    return jsonResponse.get_success_msg('Login successfully!')
 
 
 @app.route('/logout', methods=['POST'])
@@ -88,8 +88,8 @@ def logout():
         return check_result
     result = Login.logout(user_name)
     if result is not None:
-        return jsonutils.get_error_msg(result)
-    return jsonutils.get_success_msg('Logout successfully!', data=json.dumps({'user_name': user_name}))
+        return jsonResponse.get_error_msg(result)
+    return jsonResponse.get_success_msg('Logout successfully!', data=json.dumps({'user_name': user_name}))
 
 
 @app.route('/get_home', methods=['GET', 'POST'])
@@ -105,81 +105,81 @@ def categories():
     response = json.loads(urllib.request.urlopen(url).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']['categories']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']['categories']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/collections', methods=['GET', 'POST'])
 def avgle_collections():
     print("avgle_collections")
     url = 'https://api.avgle.com/v1/collections/{}?limit={}'
-    page = 0
-    limit = 2
+    page = request.get_json().get('page', 0)
+    limit = request.get_json().get('limit', 10)
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/videos', methods=['GET', 'POST'])
 def avgle_videos():
     print("avgle_videos")
     url = 'https://api.avgle.com/v1/videos/{}?limit={}'
-    page = 0
-    limit = 2
+    page = request.get_json().get('page', 0)
+    limit = request.get_json().get('limit', 10)
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def avgle_search():
     print("avgle_search")
     url = 'https://api.avgle.com/v1/search/{}/{}?limit={}'
-    query = '三上悠亜'
-    page = 0
-    limit = 2
+    query = request.get_json().get('query', None)
+    page = request.get_json().get('page', 0)
+    limit = request.get_json().get('limit', 10)
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/search_jav', methods=['GET', 'POST'])
 def avgle_search_jav():
     print("avgle_search_jav")
     url = 'https://api.avgle.com/v1/jav/{}/{}?limit={}'
-    query = 'sdde-480'
-    page = 0
-    limit = 2
+    query = request.get_json().get('query', None)
+    page = request.get_json().get('page', 0)
+    limit = request.get_json().get('limit', 10)
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
 
 
 @app.route('/video', methods=['GET', 'POST'])
 def avgle_video():
     print("avgle_video")
     url = 'https://api.avgle.com/v1/video/{}'
-    vid = '51'
+    vid = request.get_json().get('vid', 0)
     response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
     print(response)
     if response['success']:
-        categories = response['response']['video']
-        return jsonutils.get_success_data(categories)
-    return jsonutils.get_error_msg('Error when fetch data from avgle', jsonutils.PAGE_NOT_FOUND)
+        data = response['response']['video']
+        return response.get_success_data(data)
+    return response.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
