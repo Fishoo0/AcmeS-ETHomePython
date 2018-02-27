@@ -104,11 +104,13 @@ def categories():
     url = 'https://api.avgle.com/v1/categories'
     response = json.loads(urllib.request.urlopen(url).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']['categories']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']['categories']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -125,11 +127,13 @@ def avgle_collections():
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -146,11 +150,13 @@ def avgle_videos():
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -169,11 +175,13 @@ def avgle_search():
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -192,11 +200,13 @@ def avgle_search_jav():
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
@@ -210,9 +220,11 @@ def avgle_video():
         vid = 0
     response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
     print(response)
-    if response['success']:
-        data = response['response']['video']
-        return jsonResponse.get_success_data(data)
-    elif response['error_message']:
-        return jsonResponse.get_error_msg(response['error_message'], jsonResponse.SERVER_ERROR_MSG)
+    if response is not None:
+        if response['success']:
+            data = response['response']['video']
+            return jsonResponse.get_success_data(data)
+        else:
+            error_msg = response['response']['error_message']
+            return jsonResponse.get_error_msg(error_msg, jsonResponse.SERVER_ERROR_MSG)
     return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
