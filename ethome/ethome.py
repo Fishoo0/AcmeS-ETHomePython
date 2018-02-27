@@ -3,6 +3,7 @@ import os
 import urllib.request
 
 from flask import Flask, request, json
+from requests import HTTPError
 
 from ethome.schema.db import init_db, close_db
 from ethome.src.json import jsonResponse
@@ -206,9 +207,9 @@ def avgle_search_jav():
     try:
         response = json.loads(
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
-    except Exception as exception:
+    except HTTPError as exception:
         print(exception)
-        return jsonResponse.get_error_msg(exception, jsonResponse.PAGE_NOT_FOUND)
+        return jsonResponse.get_error_msg(str(exception), jsonResponse.PAGE_NOT_FOUND)
     print(response)
     if response is not None:
         if response['success']:
