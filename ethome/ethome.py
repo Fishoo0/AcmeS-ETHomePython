@@ -167,11 +167,11 @@ def avgle_search():
     if request.get_json() is not None:
         page = request.get_json().get('page', 0)
         limit = request.get_json().get('limit', 10)
-        query = request.get_json().get('query', None)
+        query = request.get_json().get('query', '')
     else:
         page = 0
         limit = 10
-        query = None
+        query = ''
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
