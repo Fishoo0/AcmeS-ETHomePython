@@ -183,7 +183,7 @@ def avgle_search():
     else:
         page = 0
         limit = 10
-        query = ''
+        query = request.args['query']
     try:
         response = json.loads(
             urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
