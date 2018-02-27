@@ -114,8 +114,7 @@ def categories():
 def avgle_collections():
     print("avgle_collections")
     url = 'https://api.avgle.com/v1/collections/{}?limit={}'
-    content = request.get_json()
-    if content is not None:
+    if request.get_json() is not None:
         page = request.get_json().get('page', 0)
         limit = request.get_json().get('limit', 10)
     else:
@@ -134,8 +133,12 @@ def avgle_collections():
 def avgle_videos():
     print("avgle_videos")
     url = 'https://api.avgle.com/v1/videos/{}?limit={}'
-    page = request.get_json().get('page', 0)
-    limit = request.get_json().get('limit', 10)
+    if request.get_json() is not None:
+        page = request.get_json().get('page', 0)
+        limit = request.get_json().get('limit', 10)
+    else:
+        page = 0
+        limit = 10
     response = json.loads(
         urllib.request.urlopen(url.format(page, limit)).read().decode())
     print(response)
@@ -149,9 +152,14 @@ def avgle_videos():
 def avgle_search():
     print("avgle_search")
     url = 'https://api.avgle.com/v1/search/{}/{}?limit={}'
-    query = request.get_json().get('query', None)
-    page = request.get_json().get('page', 0)
-    limit = request.get_json().get('limit', 10)
+    if request.get_json() is not None:
+        page = request.get_json().get('page', 0)
+        limit = request.get_json().get('limit', 10)
+        query = request.get_json().get('query', None)
+    else:
+        page = 0
+        limit = 10
+        query = None
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
@@ -165,9 +173,14 @@ def avgle_search():
 def avgle_search_jav():
     print("avgle_search_jav")
     url = 'https://api.avgle.com/v1/jav/{}/{}?limit={}'
-    query = request.get_json().get('query', None)
-    page = request.get_json().get('page', 0)
-    limit = request.get_json().get('limit', 10)
+    if request.get_json() is not None:
+        page = request.get_json().get('page', 0)
+        limit = request.get_json().get('limit', 10)
+        query = request.get_json().get('query', None)
+    else:
+        page = 0
+        limit = 10
+        query = None
     response = json.loads(
         urllib.request.urlopen(url.format(urllib.parse.quote_plus(query), page, limit)).read().decode())
     print(response)
@@ -181,7 +194,10 @@ def avgle_search_jav():
 def avgle_video():
     print("avgle_video")
     url = 'https://api.avgle.com/v1/video/{}'
-    vid = request.get_json().get('vid', 0)
+    if request.get_json() is not None:
+        vid = request.get_json().get('vid', 0)
+    else:
+        vid = 0
     response = json.loads(urllib.request.urlopen(url.format(vid)).read().decode())
     print(response)
     if response['success']:
