@@ -107,7 +107,7 @@ def categories():
     if response['success']:
         data = response['response']['categories']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
 @app.route('/collections', methods=['GET', 'POST'])
@@ -126,7 +126,7 @@ def avgle_collections():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
 @app.route('/videos', methods=['GET', 'POST'])
@@ -145,7 +145,7 @@ def avgle_videos():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -166,7 +166,7 @@ def avgle_search():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
 @app.route('/search_jav', methods=['GET', 'POST'])
@@ -187,7 +187,7 @@ def avgle_search_jav():
     if response['success']:
         data = response['response']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
 
 
 @app.route('/video', methods=['GET', 'POST'])
@@ -203,4 +203,4 @@ def avgle_video():
     if response['success']:
         data = response['response']['video']
         return jsonResponse.get_success_data(data)
-    return jsonResponse.get_error_msg('Error when fetch data from avgle', response.PAGE_NOT_FOUND)
+    return jsonResponse.get_error_msg('Error when fetch data from avgle', jsonResponse.PAGE_NOT_FOUND)
