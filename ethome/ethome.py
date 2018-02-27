@@ -5,7 +5,7 @@ import urllib.request
 from flask import Flask, request, json
 
 from ethome.schema.db import init_db, close_db
-from ethome.src.json import jsonResponse
+from ethome.src.json import jsonutils
 from ethome.src.login.login import Login
 
 app = Flask(__name__)
@@ -37,14 +37,14 @@ def release_db(error):
 
 @app.route('/')
 def welcome():
-    return jsonResponse.get_success_msg('Welcome to ETHome!')
+    return jsonutils.get_success_msg('Welcome to ETHome!')
 
 
 def check_params(user_name, user_password=None, check_password=True):
     if user_name is None:
-        return jsonResponse.get_error_msg('Invalid user_name')
+        return jsonutils.get_error_msg('Invalid user_name')
     if (user_password is None or user_password is '') and check_password:
-        return jsonResponse.get_error_msg('Invalid user_password')
+        return jsonutils.get_error_msg('Invalid user_password')
     return None
 
 
@@ -59,8 +59,8 @@ def register():
 
     result = Login.register(user_name, user_password)
     if result is not None:
-        return jsonResponse.get_error_msg(result)
-    return jsonResponse.get_success_msg('Register successfully!')
+        return jsonutils.get_error_msg(result)
+    return jsonutils.get_success_msg('Register successfully!')
 
 
 @app.route('/login', methods=['POST'])
@@ -75,8 +75,8 @@ def login():
         return check_result
     result = Login.login(user_name, user_password)
     if result is not None:
-        return jsonResponse.get_error_msg(result)
-    return jsonResponse.get_success_msg('Login successfully!')
+        return jsonutils.get_error_msg(result)
+    return jsonutils.get_success_msg('Login successfully!')
 
 
 @app.route('/logout', methods=['POST'])
@@ -88,8 +88,8 @@ def logout():
         return check_result
     result = Login.logout(user_name)
     if result is not None:
-        return jsonResponse.get_error_msg(result)
-    return jsonResponse.get_success_msg('Logout successfully!', data=json.dumps({'user_name': user_name}))
+        return jsonutils.get_error_msg(result)
+    return jsonutils.get_success_msg('Logout successfully!', data=json.dumps({'user_name': user_name}))
 
 
 @app.route('/get_home', methods=['GET', 'POST'])
